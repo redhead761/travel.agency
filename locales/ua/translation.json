@@ -1,0 +1,16 @@
+{
+  "header": {
+    "title": "Вітаємо Travel Agency"
+  },
+
+  "login": {
+    "enter": "Вхід",
+    "username": "Юзернейм",
+    "password": "Пароль",
+    "exception": "Неправильне ім'я користувача або пароль"
+  },
+
+  "cabinet": {
+    "cabinet": "Кабінет"
+  }
+}

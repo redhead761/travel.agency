@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+    position: relative;
+}
+
+.language-buttons {
+    position: absolute;
+    left: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+}

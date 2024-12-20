@@ -1,0 +1,16 @@
+{
+  "header": {
+    "title": "Welcome in Travel Agency"
+  },
+
+  "login": {
+    "enter": "Enter",
+    "username": "Username",
+    "password": "Password",
+    "exception": "Incorrect username or password"
+  },
+
+  "cabinet": {
+    "cabinet": "Cabinet"
+  }
+}
