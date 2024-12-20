@@ -8,18 +8,25 @@ import Cabinet from "./components/Cabinet/Cabinet.jsx";
 import Register from "./components/Register/Register.jsx";
 import VoucherCard from "./components/VoucherCard/VoucherCard.jsx";
 import Vouchers from './components/Vouchers/Vouchers.jsx';
+import RoleBasedRoute from './components/RoleBaseRoute/RoleBasedRoute.jsx';
 
 function App() {
     return (
         <I18nextProvider i18n={i18n}>
             <Router>
-                <Header />
+                <Header/>
                 <Routes>
                     <Route path={"/"} element={<Auth/>}/>
-                    <Route path={"/cabinet"} element={<Cabinet/>}/>
+                    <Route path={"/cabinet"} element={
+                        <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
+                            <Cabinet/>
+                        </RoleBasedRoute>}/>
                     <Route path={"/register"} element={<Register/>}/>
                     <Route path={"/create-voucher"} element={<VoucherCard/>}/>
-                    <Route path={"/vouchers"} element={<Vouchers/>}/>
+                    <Route path={"/vouchers"} element={
+                        <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
+                            <Vouchers/>
+                        </RoleBasedRoute>}/>
                 </Routes>
             </Router>
         </I18nextProvider>
