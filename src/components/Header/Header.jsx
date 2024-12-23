@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 function Header({ onAuthChange, isAuthenticated }) {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -9,6 +10,15 @@ function Header({ onAuthChange, isAuthenticated }) {
 
     useEffect(() => {
         i18n.changeLanguage(currentLang);
+
+        const axiosInterceptor = axios.interceptors.request.use((config) => {
+            config.headers["Accept-Language"] = currentLang;
+            return config;
+        });
+
+        return () => {
+            axios.interceptors.request.eject(axiosInterceptor);
+        };
     }, [currentLang, i18n]);
 
     const handleLanguageChange = (event) => {
@@ -19,15 +29,13 @@ function Header({ onAuthChange, isAuthenticated }) {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-                method: "POST",
+            const response = await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
 
-            if (response.ok) {
+            if (response.status === 200) {
                 localStorage.removeItem("token");
                 onAuthChange(false);
                 window.location.href = "/";

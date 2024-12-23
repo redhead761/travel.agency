@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-
-
 export default function Cabinet() {
     const { t } = useTranslation();
     return (
