@@ -1,6 +1,10 @@
 {
   "header": {
-    "title": "Welcome in Travel Agency"
+    "title": "Welcome in Travel Agency",
+    "login": "Login",
+    "register": "register",
+    "cabinet": "cabinet",
+    "logout": "logout"
   },
 
   "login": {

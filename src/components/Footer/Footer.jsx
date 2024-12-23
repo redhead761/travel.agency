@@ -1,8 +1,14 @@
+import '../../style.scss'
+
 function Footer() {
     return (
-        <div>
-            <h2>Footer</h2>
-        </div>
+        <footer className="footer">
+            <div className="container">
+                <div className="footer__body">
+                    <p>Update by 2024</p>
+                </div>
+            </div>
+        </footer>
     );
 }
 

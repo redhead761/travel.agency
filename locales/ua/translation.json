@@ -1,6 +1,8 @@
 {
   "header": {
-    "title": "Вітаємо Travel Agency"
+    "title": "Вітаємо Travel Agency",
+    "login": "Увійти",
+    "register": "Зареєструватися"
   },
 
   "login": {
