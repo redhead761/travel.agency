@@ -1,0 +1,1 @@
+@import "vars";.button{	display: inline-block;	padding:10px 15px;	border-radius: $border-radius;	background-color: $purple;	transition: background-color .3s ease-out;	@media (hover: hover) and (pointer: fine) {		&:hover {			background-color: $purple-light;		}	}}
