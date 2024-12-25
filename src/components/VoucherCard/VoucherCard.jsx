@@ -1,5 +1,5 @@
-import  { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -20,8 +20,11 @@ const VoucherCard = () => {
     const [tourTypes, setTourTypes] = useState([]);
     const [transferTypes, setTransferTypes] = useState([]);
     const [hotelTypes, setHotelTypes] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const voucherId = location.state?.voucherId;
 
     useEffect(() => {
         const fetchEnums = async () => {
@@ -46,8 +49,23 @@ const VoucherCard = () => {
             }
         };
 
+        const fetchVoucher = async () => {
+            if (voucherId) {
+                try {
+                    const response = await axios.get(`${API_BASE_URL}/vouchers/${voucherId}`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    });
+                    setFormData(response.data.results[0]);
+                    setIsEditing(true);
+                } catch (error) {
+                    console.error('Error fetching voucher data:', error);
+                }
+            }
+        };
+
         fetchEnums();
-    }, [localStorage.getItem('token')]);
+        fetchVoucher();
+    }, [voucherId]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -60,21 +78,31 @@ const VoucherCard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${API_BASE_URL}/vouchers`, formData, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            });
-            alert('Voucher created successfully!');
+            if (isEditing) {
+                // Update existing voucher
+                await axios.put(`${API_BASE_URL}/vouchers/${voucherId}`, formData, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
+                alert('Voucher updated successfully!');
+            } else {
+                // Create new voucher
+                await axios.post(`${API_BASE_URL}/vouchers`, formData, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
+                alert('Voucher created successfully!');
+            }
             navigate('/vouchers');
         } catch (error) {
-            console.error('Error creating voucher:', error);
-            alert('Failed to create voucher.');
+            console.error('Error saving voucher:', error);
+            alert('Failed to save voucher.');
         }
     };
 
     return (
         <div>
-            <h1>Create Voucher</h1>
+            <h1>{isEditing ? 'Edit Voucher' : 'Create Voucher'}</h1>
             <form onSubmit={handleSubmit}>
+                {/* Form fields remain the same */}
                 <div>
                     <label>Title:</label>
                     <input type="text" name="title" value={formData.title} onChange={handleChange} required />
@@ -126,7 +154,7 @@ const VoucherCard = () => {
                     <label>Hot:</label>
                     <input type="checkbox" name="hot" checked={formData.hot} onChange={handleChange} />
                 </div>
-                <button type="submit">Create Voucher</button>
+                <button type="submit">{isEditing ? 'Update Voucher' : 'Create Voucher'}</button>
                 <button type="button" onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
             </form>
         </div>
