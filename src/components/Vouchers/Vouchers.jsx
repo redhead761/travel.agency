@@ -75,20 +75,35 @@ const Vouchers = () => {
     };
 
     useEffect(() => {
+        setVouchers([])
         fetchVouchers(getFilterParams());
     }, [currentPage]);
 
-    const handleFilter = () => {
-        setCurrentPage(1);
+    const handleActionSuccess = (id, changes) => {
+        setVouchers((prevVouchers) =>
+            prevVouchers.map((voucher) =>
+                voucher.id === id ? {...voucher, ...changes} : voucher
+            )
+        );
+    };
+
+    const refreshVouchers = () => {
         fetchVouchers(getFilterParams());
     };
 
+    const handleFilter = () => {
+        setCurrentPage(1);
+        setVouchers([])
+        fetchVouchers(getFilterParams());
+    };
+    console.log(vouchers)
     const renderByRole = () => {
         return vouchers.map((voucher, idx) => {
             if (role === 'ADMIN') {
                 return (
                     <VoucherItem
                         key={idx}
+                        id={voucher.id}
                         title={voucher.title}
                         description={voucher.description}
                         price={voucher.price}
@@ -99,6 +114,9 @@ const Vouchers = () => {
                         hotelType={voucher.hotelType}
                         status={voucher.status}
                         hotStatus={voucher.hot}
+                        onActionSuccess={handleActionSuccess}
+                        role={role}
+                        onRefreshVouchers={refreshVouchers}
                     />
                 );
             } else if (role === 'USER') {
@@ -115,6 +133,7 @@ const Vouchers = () => {
             }
         });
     };
+
 
     return (
         <section className="voucher">
