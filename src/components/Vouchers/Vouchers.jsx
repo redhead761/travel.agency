@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {VoucherItem} from './voucherItem.jsx';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'; // Импортируем useNavigate
 import './voucher.scss';
 
 const Vouchers = () => {
@@ -17,10 +18,10 @@ const Vouchers = () => {
     const [maxPrice, setMaxPrice] = useState('');
 
     const [currentPage, setCurrentPage] = useState(1);
-    // const [pageSize, setPageSize] = useState(8);
     const [totalPages, setTotalPages] = useState(1);
 
     const role = localStorage.getItem('role');
+    const navigate = useNavigate(); // Хук для навигации
 
     useEffect(() => {
         axios.get(`${API_BASE_URL}/enums/hotel`, {
@@ -56,7 +57,6 @@ const Vouchers = () => {
         if (minPrice) params.minPrice = minPrice;
         if (maxPrice) params.maxPrice = maxPrice;
         params.page = currentPage;
-        // params.size = pageSize;
         return params;
     };
 
@@ -75,7 +75,7 @@ const Vouchers = () => {
     };
 
     useEffect(() => {
-        setVouchers([])
+        setVouchers([]);
         fetchVouchers(getFilterParams());
     }, [currentPage]);
 
@@ -93,10 +93,10 @@ const Vouchers = () => {
 
     const handleFilter = () => {
         setCurrentPage(1);
-        setVouchers([])
+        setVouchers([]);
         fetchVouchers(getFilterParams());
     };
-    console.log(vouchers)
+
     const renderByRole = () => {
         return vouchers.map((voucher, idx) => {
             if (role === 'ADMIN') {
@@ -134,10 +134,20 @@ const Vouchers = () => {
         });
     };
 
-
     return (
         <section className="voucher">
             <div className="container">
+
+                {role === 'ADMIN' && (
+                    <div className="voucher__top">
+                        <button
+                            className="button button--add"
+                            onClick={() => navigate('/create-voucher')}
+                        >
+                            Add Voucher
+                        </button>
+                    </div>
+                )}
 
                 <div className="voucher__top">
                     <div className="voucher__sort-item">

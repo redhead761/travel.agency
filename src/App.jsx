@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { I18nextProvider } from "react-i18next";
-import { useState, useEffect } from "react";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import {I18nextProvider} from "react-i18next";
+import {useState, useEffect} from "react";
 import i18n from "./i18n";
 import "./style.scss";
 
@@ -29,34 +29,35 @@ function App() {
         <I18nextProvider i18n={i18n}>
             <div className="wrapper">
                 <Router>
-                    <Header onAuthChange={handleAuthChange} isAuthenticated={isAuthenticated} />
+                    <Header onAuthChange={handleAuthChange} isAuthenticated={isAuthenticated}/>
                     <main className="main">
                         <Routes>
                             <Route
                                 path="/"
                                 element={
-                                    isAuthenticated ? <Navigate to="/vouchers" replace /> : <Auth onAuthChange={handleAuthChange} />
+                                    isAuthenticated ? <Navigate to="/vouchers" replace/> :
+                                        <Auth onAuthChange={handleAuthChange}/>
                                 }
                             />
                             <Route
                                 path="/register"
                                 element={
-                                    isAuthenticated ? <Navigate to="/vouchers" replace /> : <Register />
+                                    isAuthenticated ? <Navigate to="/vouchers" replace/> : <Register/>
                                 }
                             />
                             <Route
                                 path="/cabinet"
                                 element={
                                     <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
-                                        <Cabinet />
+                                        <Cabinet/>
                                     </RoleBasedRoute>
                                 }
                             />
                             <Route
                                 path="/create-voucher"
                                 element={
-                                    <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
-                                        <VoucherCard />
+                                    <RoleBasedRoute allowedRoles={["ADMIN"]}>
+                                        <VoucherCard/>
                                     </RoleBasedRoute>
                                 }
                             />
@@ -64,13 +65,13 @@ function App() {
                                 path="/vouchers"
                                 element={
                                     <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
-                                        <Vouchers />
+                                        <Vouchers/>
                                     </RoleBasedRoute>
                                 }
                             />
                         </Routes>
                     </main>
-                    <Footer />
+                    <Footer/>
                 </Router>
             </div>
         </I18nextProvider>
