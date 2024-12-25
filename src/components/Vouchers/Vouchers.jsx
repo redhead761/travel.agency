@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {VoucherItem} from './voucherItem.jsx';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'; // Импортируем useNavigate
+import {useNavigate} from 'react-router-dom';
 import './voucher.scss';
 
 const Vouchers = () => {
@@ -21,7 +21,7 @@ const Vouchers = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const role = localStorage.getItem('role');
-    const navigate = useNavigate(); // Хук для навигации
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`${API_BASE_URL}/enums/hotel`, {
@@ -142,7 +142,7 @@ const Vouchers = () => {
                     <div className="voucher__top">
                         <button
                             className="button button--add"
-                            onClick={() => navigate('/create-voucher')}
+                            onClick={() => navigate('/voucher-card')}
                         >
                             Add Voucher
                         </button>

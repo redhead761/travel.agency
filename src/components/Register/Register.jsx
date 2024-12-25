@@ -38,7 +38,6 @@ export default function Register() {
                 throw new Error(errorData.message || "Failed to register");
             }
 
-            // Registration successful, navigate to the home page
             navigate("/");
         } catch (err) {
             setError(err.message);

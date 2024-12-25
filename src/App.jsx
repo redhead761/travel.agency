@@ -54,7 +54,7 @@ function App() {
                                 }
                             />
                             <Route
-                                path="/create-voucher"
+                                path="/voucher-card"
                                 element={
                                     <RoleBasedRoute allowedRoles={["ADMIN"]}>
                                         <VoucherCard/>

@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import './cabinet.scss'
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 export default function Cabinet() {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -9,6 +10,7 @@ export default function Cabinet() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fetch users from the server
@@ -54,7 +56,7 @@ export default function Cabinet() {
 
     return (
         <div>
-            <h2>{t('cabinet.cabinet')}</h2>
+            <button type="button" onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
             <table style={{width: '100%', borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
