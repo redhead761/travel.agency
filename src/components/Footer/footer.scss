@@ -1,1 +1,1 @@
-@import "./../../scss/vars";.footer {  position: relative;  text-align: center;  padding: 20px 0;  background-color: $purple-light;}
+@use "../../scss/vars" as *;.footer {  position: relative;  text-align: center;  padding: 20px 0;  background-color: $purple-light;}

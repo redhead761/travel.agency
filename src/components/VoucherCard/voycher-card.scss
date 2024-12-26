@@ -1,0 +1,88 @@
+@use "../../scss/vars" as *;
+
+.voucher-card{
+  &__name{
+    text-align: center;
+    font-size:20px;
+
+    &:not(:last-child) {
+      margin-bottom:24px;
+    }
+  }
+
+  form{
+    max-width: 800px;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    margin:0 auto;
+    padding:15px;
+
+    & > * {
+      &:not(:last-child) {
+        margin-bottom:24px;
+      }
+    }
+
+    @media (min-width: 767px){
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+
+      & > * {
+        &:not(:last-child) {
+          margin-bottom:0;
+        }
+      }
+    }
+
+    input,
+    textarea,
+    select{
+      border-radius: 10px;
+      border: 1px solid #333;
+      padding:8px;
+      width: 100%;
+      font-size:14px;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    select{
+      cursor: pointer;
+    }
+
+    label{
+      display: block;
+      margin-bottom:10px;
+    }
+  }
+
+  form .row-checkbox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    label {
+      margin-bottom:0;
+      margin-right:10px;
+    }
+
+    input{
+      width:auto;
+    }
+  }
+
+  &__buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    grid-column: 1/-1;
+    margin:0 auto;
+
+    @media (min-width: 767px){
+      flex-direction: row-reverse;
+    }
+  }
+}

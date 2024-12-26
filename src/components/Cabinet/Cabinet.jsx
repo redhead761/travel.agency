@@ -81,19 +81,23 @@ export default function Cabinet() {
                 </tr>
                 </thead>
                 <tbody>
-                {users.map(user => (
-                    <tr key={user.id} style={{border: '1px solid #ddd', padding: '8px'}}>
-                        <td>{user.username}</td>
-                        <td>{user.phoneNumber}</td>
-                        <td>{user.balance}</td>
-                        <td>{user.role}</td>
-                        <td>{user.accountStatus}</td>
-                        <td>
-                            <button onClick={() => handleChangeRole(user.id)}>{t('cabinet.change_role')}</button>
-                            <button onClick={() => handleChangeStatus(user.id)}>{t('cabinet.change_status')}</button>
-                        </td>
-                    </tr>
-                ))}
+                {users.map(user => {
+                    console.log(user)
+                    return (
+                        <tr key={user.id} style={{border: '1px solid #ddd', padding: '8px'}}>
+                            <td>{user.username}</td>
+                            <td>{user.phoneNumber}</td>
+                            <td>{user.balance}</td>
+                            <td>{user.role}</td>
+                            <td>{user.accountStatus ? "true" : "false"}</td>
+                            <td>
+                                <button onClick={() => handleChangeRole(user.id)}>{t('cabinet.change_role')}</button>
+                                <button
+                                    onClick={() => handleChangeStatus(user.id)}>{t('cabinet.change_status')}</button>
+                            </td>
+                        </tr>
+                    )
+                })}
                 </tbody>
             </table>
         </div>

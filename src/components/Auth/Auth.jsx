@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const Auth = ({onAuthChange}) => {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-    ;
+
     const {t} = useTranslation();
     const [credentials, setCredentials] = useState({username: "", password: ""});
     const [message, setMessage] = useState("");
@@ -43,30 +43,30 @@ const Auth = ({onAuthChange}) => {
         }
     };
     return (
-            <section className="form-section">
-                <div className="container">
-                    <div className="form-section__body">
-                        <form className="form" onSubmit={handleSubmit}>
-                            <div className="form__row">
-                                <label className="form__label" htmlFor="form-name">{t("login.username")}</label>
-                                <input type="text" id="form-name" name="username" value={credentials.username}
-                                       onChange={handleChange}/>
-                            </div>
+        <section className="form-section">
+            <div className="container">
+                <div className="form-section__body">
+                    <form className="form" onSubmit={handleSubmit}>
+                        <div className="form__row">
+                            <label className="form__label" htmlFor="form-name">{t("login.username")}</label>
+                            <input type="text" id="form-name" name="username" value={credentials.username}
+                                   onChange={handleChange}/>
+                        </div>
 
-                            <div className="form__row">
-                                <label className="form__label" htmlFor="form-password">{t("login.password")}</label>
-                                <input type="password" id="form-password" name="password" value={credentials.password}
-                                       onChange={handleChange}/>
-                            </div>
+                        <div className="form__row">
+                            <label className="form__label" htmlFor="form-password">{t("login.password")}</label>
+                            <input type="password" id="form-password" name="password" value={credentials.password}
+                                   onChange={handleChange}/>
+                        </div>
 
-                            <div className="form__row">
-                                <button className="button" type="submit">Login</button>
-                            </div>
-                        </form>
-                    </div>
-                    {message && <p>{message}</p>}
+                        <div className="form__row">
+                            <button className="button" type="submit">Login</button>
+                        </div>
+                    </form>
                 </div>
-            </section>
+                {message && <p>{message}</p>}
+            </div>
+        </section>
     );
 };
 

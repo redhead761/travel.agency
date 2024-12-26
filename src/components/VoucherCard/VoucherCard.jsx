@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import {useNavigate, useLocation} from 'react-router-dom';
 import axios from 'axios';
+import "./voycher-card.scss"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -31,13 +32,13 @@ const VoucherCard = () => {
             try {
                 const [tourResponse, transferResponse, hotelResponse] = await Promise.all([
                     axios.get(`${API_BASE_URL}/enums/tour`, {
-                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                     }),
                     axios.get(`${API_BASE_URL}/enums/transfer`, {
-                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                     }),
                     axios.get(`${API_BASE_URL}/enums/hotel`, {
-                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                     }),
                 ]);
 
@@ -53,7 +54,7 @@ const VoucherCard = () => {
             if (voucherId) {
                 try {
                     const response = await axios.get(`${API_BASE_URL}/vouchers/${voucherId}`, {
-                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                     });
                     setFormData(response.data.results[0]);
                     setIsEditing(true);
@@ -68,7 +69,7 @@ const VoucherCard = () => {
     }, [voucherId]);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const {name, value, type, checked} = e.target;
         setFormData({
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
@@ -81,13 +82,13 @@ const VoucherCard = () => {
             if (isEditing) {
                 // Update existing voucher
                 await axios.put(`${API_BASE_URL}/vouchers/${voucherId}`, formData, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                 });
                 alert('Voucher updated successfully!');
             } else {
                 // Create new voucher
                 await axios.post(`${API_BASE_URL}/vouchers`, formData, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                 });
                 alert('Voucher created successfully!');
             }
@@ -99,64 +100,76 @@ const VoucherCard = () => {
     };
 
     return (
-        <div>
-            <h1>{isEditing ? 'Edit Voucher' : 'Create Voucher'}</h1>
-            <form onSubmit={handleSubmit}>
-                {/* Form fields remain the same */}
-                <div>
-                    <label>Title:</label>
-                    <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea name="description" value={formData.description} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Price:</label>
-                    <input type="number" name="price" value={formData.price} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Tour Type:</label>
-                    <select name="tourType" value={formData.tourType} onChange={handleChange} required>
-                        <option value="">Select Tour Type</option>
-                        {tourTypes.map((type) => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Transfer Type:</label>
-                    <select name="transferType" value={formData.transferType} onChange={handleChange} required>
-                        <option value="">Select Transfer Type</option>
-                        {transferTypes.map((type) => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Hotel Type:</label>
-                    <select name="hotelType" value={formData.hotelType} onChange={handleChange} required>
-                        <option value="">Select Hotel Type</option>
-                        {hotelTypes.map((type) => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Arrival Date:</label>
-                    <input type="date" name="arrivalDate" value={formData.arrivalDate} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Eviction Date:</label>
-                    <input type="date" name="evictionDate" value={formData.evictionDate} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Hot:</label>
-                    <input type="checkbox" name="hot" checked={formData.hot} onChange={handleChange} />
-                </div>
-                <button type="submit">{isEditing ? 'Update Voucher' : 'Create Voucher'}</button>
-                <button type="button" onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
-            </form>
+        <div className={'voucher-card'}>
+            <div className={'container'}>
+                <h1 className={'voucher-card__name'}>{isEditing ? 'Edit Voucher' : 'Create Voucher'}</h1>
+                <form onSubmit={handleSubmit}>
+                    {/* Form fields remain the same */}
+                    <div>
+                        <label htmlFor='input-title' >Title:</label>
+                        <input type="text" name="title" id='input-title' value={formData.title} onChange={handleChange} required/>
+                    </div>
+                    <div>
+                        <label>Description:</label>
+                        <textarea name="description" value={formData.description} onChange={handleChange} required/>
+                    </div>
+                    <div>
+                        <label>Price:</label>
+                        <input type="number" name="price" value={formData.price} onChange={handleChange} required/>
+                    </div>
+                    <div>
+                        <label>Tour Type:</label>
+                        <select name="tourType" value={formData.tourType} onChange={handleChange} required>
+                            <option value="">Select Tour Type</option>
+                            {tourTypes.map((type) => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Transfer Type:</label>
+                        <select name="transferType" value={formData.transferType} onChange={handleChange} required>
+                            <option value="">Select Transfer Type</option>
+                            {transferTypes.map((type) => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Hotel Type:</label>
+                        <select name="hotelType" value={formData.hotelType} onChange={handleChange} required>
+                            <option value="">Select Hotel Type</option>
+                            {hotelTypes.map((type) => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Arrival Date:</label>
+                        <input type="date"
+                               name="arrivalDate"
+                               value={formData.arrivalDate}
+                               onChange={handleChange}
+                               required/>
+                    </div>
+                    <div>
+                        <label>Eviction Date:</label>
+                        <input type="date"
+                               name="evictionDate"
+                               value={formData.evictionDate}
+                               onChange={handleChange}
+                               required/>
+                    </div>
+                    <div className='row-checkbox'>
+                        <label>Hot:</label>
+                        <input type="checkbox" name="hot" checked={formData.hot} onChange={handleChange}/>
+                    </div>
+                    <div className="voucher-card__buttons">
+                        <button type="submit" className='button' >{isEditing ? 'Update Voucher' : 'Create Voucher'}</button>
+                        <button type="button" className='button danger'  onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
