@@ -7,7 +7,7 @@ import './voucher.scss';
 const Vouchers = () => {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [vouchers, setVouchers] = useState([]);
-    const [hotelType, setHotelType] = useState(['ONE_STAR']);
+    const [hotelType, setHotelType] = useState([]);
     const [tourType, setTourType] = useState([]);
     const [transferType, setTransferType] = useState([]);
 
