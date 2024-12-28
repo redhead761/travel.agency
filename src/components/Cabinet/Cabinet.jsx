@@ -10,7 +10,7 @@ export default function Cabinet() {
     const {t} = useTranslation();
     const [vouchers, setVouchers] = useState([]);
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState();
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -25,6 +25,8 @@ export default function Cabinet() {
             fetchCurrentUser();
         } else if (role === 'USER') {
             fetchVouchers();
+            fetchCurrentUser();
+        } else if (role === 'MANAGER') {
             fetchCurrentUser();
         }
     }, [role, currentPage]);
@@ -175,7 +177,8 @@ export default function Cabinet() {
                             </td>
                             <td>{user.accountStatus ? 'true' : 'false'}</td>
                             <td className={'table-actions'}>
-                                <button className={'button'} onClick={() => handleChangeStatus(user.id, !user.accountStatus)}>
+                                <button className={'button'}
+                                        onClick={() => handleChangeStatus(user.id, !user.accountStatus)}>
                                     {t('cabinet.change_status')}
                                 </button>
                             </td>
@@ -213,6 +216,7 @@ export default function Cabinet() {
                         </div>
                     )}
 
+                    <button className="button danger" onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
                     <h2>{t('cabinet.welcome')}, {localStorage.getItem('username')}</h2>
                     <ul className="voucher__list">
                         {vouchers.map((voucher, idx) => (
@@ -232,6 +236,24 @@ export default function Cabinet() {
                     </div>
                 </div>
             </section>
+        );
+    }
+
+    if (role === 'MANAGER') {
+        return (
+            <div className="container">
+                <button className="button danger" onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
+                {currentUser && (
+                    <div className="current-user-info">
+                        <h2>{t('cabinet.current_user')}</h2>
+                        <p>{t('cabinet.username')}: {currentUser.username}</p>
+                        <p>{t('cabinet.phone')}: {currentUser.phoneNumber}</p>
+                        <p>{t('cabinet.balance')}: {currentUser.balance}</p>
+                        <p>{t('cabinet.role')}: {currentUser.role}</p>
+                        <p>{t('cabinet.account_status')}: {currentUser.accountStatus ? 'true' : 'false'}</p>
+                    </div>
+                )}
+            </div>
         );
     }
 
