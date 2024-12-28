@@ -33,6 +33,7 @@ const Auth = ({onAuthChange}) => {
                 const decoded = jwt_decode(token);
                 if (decoded.role) {
                     localStorage.setItem("role", decoded.role);
+                    localStorage.setItem("id",decoded.id);
                 }
                 onAuthChange(true);
                 navigate("/vouchers");

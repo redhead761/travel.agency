@@ -48,7 +48,7 @@ function App() {
                             <Route
                                 path="/cabinet"
                                 element={
-                                    <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
+                                    <RoleBasedRoute allowedRoles={["USER", "ADMIN", "MANAGER"]}>
                                         <Cabinet/>
                                     </RoleBasedRoute>
                                 }
@@ -64,7 +64,7 @@ function App() {
                             <Route
                                 path="/vouchers"
                                 element={
-                                    <RoleBasedRoute allowedRoles={["USER", "ADMIN"]}>
+                                    <RoleBasedRoute allowedRoles={["USER", "ADMIN", "MANAGER"]}>
                                         <Vouchers/>
                                     </RoleBasedRoute>
                                 }

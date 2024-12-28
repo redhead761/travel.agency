@@ -123,11 +123,40 @@ const Vouchers = () => {
                 return (
                     <VoucherItem
                         key={idx}
+                        id={voucher.id}
                         title={voucher.title}
+                        description={voucher.description}
                         price={voucher.price}
                         arrivalDate={voucher.arrivalDate}
                         evictionDate={voucher.evictionDate}
+                        tourType={voucher.tourType}
+                        transferType={voucher.transferType}
                         hotelType={voucher.hotelType}
+                        status={voucher.status}
+                        hotStatus={voucher.hot}
+                        onActionSuccess={handleActionSuccess}
+                        role={role}
+                        onRefreshVouchers={refreshVouchers}
+                    />
+                );
+            } else if (role === 'MANAGER') {
+                return (
+                    <VoucherItem
+                        key={idx}
+                        id={voucher.id}
+                        title={voucher.title}
+                        description={voucher.description}
+                        price={voucher.price}
+                        arrivalDate={voucher.arrivalDate}
+                        evictionDate={voucher.evictionDate}
+                        tourType={voucher.tourType}
+                        transferType={voucher.transferType}
+                        hotelType={voucher.hotelType}
+                        status={voucher.status}
+                        hotStatus={voucher.hot}
+                        onActionSuccess={handleActionSuccess}
+                        role={role}
+                        onRefreshVouchers={refreshVouchers}
                     />
                 );
             }
