@@ -65,7 +65,7 @@ const Auth = ({onAuthChange}) => {
                         </div>
                     </form>
                 </div>
-                {message && <p>{message}</p>}
+                {message && <p style={{textAlign:"center", color:"red", marginTop:"10px"}}>{message}</p>}
             </div>
         </section>
     );

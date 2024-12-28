@@ -55,8 +55,9 @@ export default function Cabinet() {
     if (error) return <p>{t('cabinet.error')}: {error}</p>;
 
     return (
-        <div>
-            <button type="button" onClick={() => navigate('/vouchers')}>Back to Vouchers</button>
+        <div className={'container'}>
+            <button className={'button danger'} type="button" onClick={() => navigate('/vouchers')}>Back to Vouchers
+            </button>
             <table style={{width: '100%', borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
@@ -82,7 +83,6 @@ export default function Cabinet() {
                 </thead>
                 <tbody>
                 {users.map(user => {
-                    console.log(user)
                     return (
                         <tr key={user.id} style={{border: '1px solid #ddd', padding: '8px'}}>
                             <td>{user.username}</td>
@@ -90,10 +90,11 @@ export default function Cabinet() {
                             <td>{user.balance}</td>
                             <td>{user.role}</td>
                             <td>{user.accountStatus ? "true" : "false"}</td>
-                            <td>
-                                <button onClick={() => handleChangeRole(user.id)}>{t('cabinet.change_role')}</button>
-                                <button
-                                    onClick={() => handleChangeStatus(user.id)}>{t('cabinet.change_status')}</button>
+                            <td className={"table-actions"}>
+                                <button className={'button'}
+                                        onClick={() => handleChangeRole(user.id)}>{t('cabinet.change_role')}</button>
+                                <button className={'button'}
+                                        onClick={() => handleChangeStatus(user.id)}>{t('cabinet.change_status')}</button>
                             </td>
                         </tr>
                     )
