@@ -115,26 +115,45 @@ export default function Cabinet() {
         }
     };
 
+    const handleAddMoney = () =>{
+        const userInput = prompt("Введите ваши данные:");
+        if (userInput !== null) { // Проверяем, не нажал ли пользователь "Отмена"
+            alert(`Вы ввели: ${userInput}`);
+        }
+    }
+
     const renderCurrentUserInfo = () => (
         currentUser && (
             <div className="current-user-info">
                 <h2>{t('cabinet.current_user')}</h2>
-                <p>{t('cabinet.username')}: {currentUser.username}</p>
-                <p>{t('cabinet.phone')}: {currentUser.phoneNumber}</p>
-                <p>{t('cabinet.balance')}: {currentUser.balance}</p>
-                <p>{t('cabinet.role')}: {currentUser.role}</p>
-                <p>{t('cabinet.account_status')}: {currentUser.accountStatus ? t('cabinet.active') : t('cabinet.disabled')}</p>
+                <div>
+                    <p>{t('cabinet.username')}: <span> {currentUser.username}</span></p>
+                </div>
+                <div>
+                    <p>{t('cabinet.phone')}: {currentUser.phoneNumber}</p>
+                </div>
+                <div className='balance-wrapper'>
+                    <p>{t('cabinet.balance')}: {currentUser.balance}</p>
+                    {role === 'USER' && <button className='button' onClick={handleAddMoney}>Add money</button>}
+                </div>
+                <div>
+                    <p>{t('cabinet.role')}: {currentUser.role}</p>
+                </div>
+                <div>
+                    <p>{t('cabinet.account_status')}: {currentUser.accountStatus ? t('cabinet.active') : t('cabinet.disabled')}</p>
+                </div>
             </div>
         )
     );
 
     const renderPagination = () => (
         <div className="voucher__pagination">
-            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+            <button className={'button'} onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}>
                 {t('cabinet.previous')}
             </button>
             <span>{t('cabinet.page')} {currentPage} {t('cabinet.of')} {totalPages}</span>
-            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            <button className={'button'} onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}>
                 {t('cabinet.next')}
             </button>
@@ -144,9 +163,11 @@ export default function Cabinet() {
     if (role === 'ADMIN') {
         return (
             <div className="container">
-                {renderCurrentUserInfo()}
-                <button className="button danger"
-                        onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                <div className="cabinet-top">
+                    {renderCurrentUserInfo()}
+                    <button className="button danger"
+                            onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                </div>
                 <table className="user-table">
                     <thead>
                     <tr>
@@ -194,10 +215,11 @@ export default function Cabinet() {
         return (
             <section className="voucher">
                 <div className="container">
-                    {renderCurrentUserInfo()}
-                    <button className="button danger"
-                            onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
-                    <h2>{t('cabinet.welcome')}, {localStorage.getItem('username')}</h2>
+                    <div className='cabinet-top'>
+                        {renderCurrentUserInfo()}
+                        <button className="button danger"
+                                onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                    </div>
                     <ul className="voucher__list">
                         {vouchers.map((voucher, idx) => (
                             <VoucherItem key={idx} {...voucher} />
@@ -212,12 +234,13 @@ export default function Cabinet() {
     if (role === 'MANAGER') {
         return (
             <div className="container">
-                <button className="button danger"
-                        onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
-                {renderCurrentUserInfo()}
+                <div className='cabinet-top'>
+                    {renderCurrentUserInfo()}
+                    <button className="button danger"
+                            onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                </div>
             </div>
         );
     }
-
     return null;
 }

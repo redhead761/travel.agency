@@ -83,7 +83,7 @@ export default function Register() {
                         </div>
                         <div className="form__row">
                             <button className="button" type="submit">
-                                {t("regiser.submit")}
+                                {t("register.submit")}
                             </button>
                         </div>
                     </form>
