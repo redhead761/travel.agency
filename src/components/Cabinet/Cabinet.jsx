@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import './cabinet.scss';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { VoucherItem } from '../Vouchers/VoucherItem.jsx';
+import {useNavigate} from 'react-router-dom';
+import {VoucherItem} from '../Vouchers/VoucherItem.jsx';
 
 export default function Cabinet() {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const navigate = useNavigate();
 
     const [vouchers, setVouchers] = useState([]);
@@ -30,14 +30,24 @@ export default function Cabinet() {
         }
     }, [role, currentPage]);
 
+    const handleApiError = (err) => {
+        const message = err.response?.data?.message || err.message || t('cabinet.unknown_error');
+        alert(message);
+    };
+
+    const handleApiSuccess = (response) => {
+        const message = response?.data?.statusMessage || t('cabinet.success');
+        alert(message);
+    };
+
     const fetchCurrentUser = async () => {
         try {
-            const { data } = await axios.get(`${API_BASE_URL}/users/${userId}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            const {data} = await axios.get(`${API_BASE_URL}/users/${userId}`, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
             });
             setCurrentUser(data.results[0]);
         } catch (err) {
-            console.error(t('cabinet.error_fetching_user'), err);
+            handleApiError(err);
         } finally {
             setLoading(false);
         }
@@ -46,14 +56,14 @@ export default function Cabinet() {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get(`${API_BASE_URL}/users`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                params: { page: currentPage },
+            const {data} = await axios.get(`${API_BASE_URL}/users`, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                params: {page: currentPage},
             });
             setUsers(data.results);
             setTotalPages(data.totalPages || 1);
         } catch (err) {
-            setError(err.message);
+            handleApiError(err);
         } finally {
             setLoading(false);
         }
@@ -62,14 +72,14 @@ export default function Cabinet() {
     const fetchVouchers = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get(`${API_BASE_URL}/vouchers`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                params: { userId, page: currentPage },
+            const {data} = await axios.get(`${API_BASE_URL}/vouchers`, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                params: {userId, page: currentPage},
             });
             setVouchers(data.results);
             setTotalPages(data.totalPages || 1);
         } catch (err) {
-            setError(err.message);
+            handleApiError(err);
         } finally {
             setLoading(false);
         }
@@ -77,37 +87,35 @@ export default function Cabinet() {
 
     const handleChangeRole = async (userId, newRole) => {
         try {
-            await axios.patch(
+            const response = await axios.patch(
                 `${API_BASE_URL}/users/${userId}/role`,
                 {},
                 {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                    params: { role: newRole },
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                    params: {role: newRole},
                 }
             );
-            alert(t('cabinet.role_changed'));
+            handleApiSuccess(response);
             fetchUsers();
         } catch (err) {
-            console.error(t('cabinet.error_changing_role'), err);
-            alert(t('cabinet.error_changing_role'));
+            handleApiError(err);
         }
     };
 
     const handleChangeStatus = async (userId, newStatus) => {
         try {
-            await axios.patch(
+            const response = await axios.patch(
                 `${API_BASE_URL}/users/${userId}/status`,
                 {},
                 {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                    params: { accountStatus: newStatus },
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                    params: {accountStatus: newStatus},
                 }
             );
-            alert(t('cabinet.status_changed'));
+            handleApiSuccess(response);
             fetchUsers();
         } catch (err) {
-            console.error(t('cabinet.error_changing_status'), err);
-            alert(t('cabinet.error_changing_status'));
+            handleApiError(err);
         }
     };
 
@@ -133,7 +141,8 @@ export default function Cabinet() {
                 {t('cabinet.previous')}
             </button>
             <span>{t('cabinet.page')} {currentPage} {t('cabinet.of')} {totalPages}</span>
-            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}>
                 {t('cabinet.next')}
             </button>
         </div>
@@ -143,7 +152,8 @@ export default function Cabinet() {
         return (
             <div className="container">
                 {renderCurrentUserInfo()}
-                <button className="button danger" onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                <button className="button danger"
+                        onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
                 <table className="user-table">
                     <thead>
                     <tr>
@@ -173,7 +183,8 @@ export default function Cabinet() {
                             </td>
                             <td>{user.accountStatus ? 'true' : 'false'}</td>
                             <td>
-                                <button className="button" onClick={() => handleChangeStatus(user.id, !user.accountStatus)}>
+                                <button className="button"
+                                        onClick={() => handleChangeStatus(user.id, !user.accountStatus)}>
                                     {t('cabinet.change_status')}
                                 </button>
                             </td>
@@ -191,7 +202,8 @@ export default function Cabinet() {
             <section className="voucher">
                 <div className="container">
                     {renderCurrentUserInfo()}
-                    <button className="button danger" onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                    <button className="button danger"
+                            onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
                     <h2>{t('cabinet.welcome')}, {localStorage.getItem('username')}</h2>
                     <ul className="voucher__list">
                         {vouchers.map((voucher, idx) => (
@@ -207,7 +219,8 @@ export default function Cabinet() {
     if (role === 'MANAGER') {
         return (
             <div className="container">
-                <button className="button danger" onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
+                <button className="button danger"
+                        onClick={() => navigate('/vouchers')}>{t('cabinet.back_to_vouchers')}</button>
                 {renderCurrentUserInfo()}
             </div>
         );
