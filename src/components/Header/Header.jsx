@@ -38,6 +38,9 @@ function Header({onAuthChange, isAuthenticated}) {
 
 			if (response.status === 200) {
 				localStorage.removeItem("token");
+				localStorage.removeItem('lang');
+				localStorage.removeItem('id');
+				localStorage.getItem('role')
 				onAuthChange(false);
 				window.location.href = "/";
 			} else {

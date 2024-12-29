@@ -1,20 +1,81 @@
 {
+  "auth": {
+    "login": "Login",
+    "username": "Username",
+    "password": "Password"
+  },
+  "cabinet": {
+    "confirm_role": "Are you sure you want to change the role?",
+    "confirm_status": "Are you sure you want to change the status?",
+    "current_user": "Current user",
+    "username": "Username",
+    "phone": "Mobile number phone",
+    "balance": "Balance",
+    "role": "Role",
+    "account_status": "Account status",
+    "active": "Active",
+    "disabled": "Disabled",
+    "previous": "Previous",
+    "page": "Page",
+    "of": "of",
+    "next": "Next",
+    "back_to_vouchers": "Back to vouchers",
+    "actions": "Actions",
+    "change_status": "Change status",
+    "welcome": "Welcome"
+  },
+  "footer": {
+    "main": "Development by O.P. for EPAM in 2024"
+  },
   "header": {
     "title": "Welcome in Travel Agency",
-    "login": "Login",
+    "login": "login",
     "register": "register",
     "cabinet": "cabinet",
     "logout": "logout"
   },
-
-  "login": {
-    "enter": "Enter",
-    "username": "Username",
-    "password": "Password",
-    "exception": "Incorrect username or password"
+  "register": {
+    "username": "username",
+    "phoneNumber": "phone number",
+    "password": "password",
+    "submit": "submit"
   },
-
-  "cabinet": {
-    "cabinet": "Cabinet"
+  "voucher": {
+    "edit": "Edit voucher",
+    "create": "Create voucher",
+    "title": "Title",
+    "description": "Description",
+    "price": "Price",
+    "select_tour_type": "Select tour type",
+    "select_transfer_type": "Select transfer type",
+    "select_hotel_type": "Select hotel type",
+    "arrival_date": "Arrival date",
+    "eviction_date": "Eviction date",
+    "hot": "Hot"
+  },
+  "voucher_item": {
+    "status_confirm": "Are you sure you want to change the status?",
+    "hot_confirm": "Are you sure you want to toggle the hot status?",
+    "delete_confirm": "Are you sure you want to delete this voucher?",
+    "order_confirm": "Are you sure you want to order this voucher?",
+    "tour": "Tour",
+    "hotel": "Hotel",
+    "hot": "hot",
+    "yes": "Yes",
+    "no": "No",
+    "status": "Status",
+    "toggle_hot": "Toggle hot",
+    "delete": "Delete",
+    "update_voucher": "Update voucher",
+    "order": "Order"
+  },
+  "vouchers": {
+    "add_voucher": "Add voucher",
+    "hotel_type": "Hotel type",
+    "tour_type": "Tour type",
+    "transfer_type": "Transfer type",
+    "min_price": "Min price",
+    "max_price": "Max price",
+    "apply_filters": "Apply filters"
   }
 }

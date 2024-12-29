@@ -1,10 +1,14 @@
 import './footer.scss';
+import {useTranslation} from "react-i18next";
+
+
 export default function Footer() {
+    const {t} = useTranslation();
     return (
         <footer className="footer">
             <div className="container">
                 <div className="footer__body">
-                    <p>Update by 2024</p>
+                    <p>{t('footer.main')}</p>
                 </div>
             </div>
         </footer>

@@ -3,9 +3,11 @@ import {VoucherItem} from './voucherItem.jsx';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import './voucher.scss';
+import {useTranslation} from "react-i18next";
 
 const Vouchers = () => {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    const {t} = useTranslation();
     const [vouchers, setVouchers] = useState([]);
     const [hotelType, setHotelType] = useState([]);
     const [tourType, setTourType] = useState([]);
@@ -29,24 +31,21 @@ const Vouchers = () => {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
         })
-            .then(response => setHotelType(response.data))
-            .catch(error => console.error('Ошибка при загрузке hotel:', error));
+            .then(response => setHotelType(response.data));
 
         axios.get(`${API_BASE_URL}/enums/tour`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
         })
-            .then(response => setTourType(response.data))
-            .catch(error => console.error('Ошибка при загрузке tour:', error));
+            .then(response => setTourType(response.data));
 
         axios.get(`${API_BASE_URL}/enums/transfer`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
         })
-            .then(response => setTransferType(response.data))
-            .catch(error => console.error('Ошибка при загрузке transfer:', error));
+            .then(response => setTransferType(response.data));
     }, []);
 
     const getFilterParams = () => {
@@ -70,8 +69,7 @@ const Vouchers = () => {
             .then(response => {
                 setVouchers(response.data.results);
                 setTotalPages(response.data.totalPages || 1);
-            })
-            .catch(error => console.error('Ошибка при загрузке ваучеров:', error));
+            });
     };
 
     useEffect(() => {
@@ -97,69 +95,27 @@ const Vouchers = () => {
         fetchVouchers(getFilterParams());
     };
 
-    const renderByRole = () => {
+    const render = () => {
         return vouchers.map((voucher, idx) => {
-            if (role === 'ADMIN') {
-                return (
-                    <VoucherItem
-                        key={idx}
-                        id={voucher.id}
-                        title={voucher.title}
-                        description={voucher.description}
-                        price={voucher.price}
-                        arrivalDate={voucher.arrivalDate}
-                        evictionDate={voucher.evictionDate}
-                        tourType={voucher.tourType}
-                        transferType={voucher.transferType}
-                        hotelType={voucher.hotelType}
-                        status={voucher.status}
-                        hotStatus={voucher.hot}
-                        onActionSuccess={handleActionSuccess}
-                        role={role}
-                        onRefreshVouchers={refreshVouchers}
-                    />
-                );
-            } else if (role === 'USER') {
-                return (
-                    <VoucherItem
-                        key={idx}
-                        id={voucher.id}
-                        title={voucher.title}
-                        description={voucher.description}
-                        price={voucher.price}
-                        arrivalDate={voucher.arrivalDate}
-                        evictionDate={voucher.evictionDate}
-                        tourType={voucher.tourType}
-                        transferType={voucher.transferType}
-                        hotelType={voucher.hotelType}
-                        status={voucher.status}
-                        hotStatus={voucher.hot}
-                        onActionSuccess={handleActionSuccess}
-                        role={role}
-                        onRefreshVouchers={refreshVouchers}
-                    />
-                );
-            } else if (role === 'MANAGER') {
-                return (
-                    <VoucherItem
-                        key={idx}
-                        id={voucher.id}
-                        title={voucher.title}
-                        description={voucher.description}
-                        price={voucher.price}
-                        arrivalDate={voucher.arrivalDate}
-                        evictionDate={voucher.evictionDate}
-                        tourType={voucher.tourType}
-                        transferType={voucher.transferType}
-                        hotelType={voucher.hotelType}
-                        status={voucher.status}
-                        hotStatus={voucher.hot}
-                        onActionSuccess={handleActionSuccess}
-                        role={role}
-                        onRefreshVouchers={refreshVouchers}
-                    />
-                );
-            }
+            return (
+                <VoucherItem
+                    key={idx}
+                    id={voucher.id}
+                    title={voucher.title}
+                    description={voucher.description}
+                    price={voucher.price}
+                    arrivalDate={voucher.arrivalDate}
+                    evictionDate={voucher.evictionDate}
+                    tourType={voucher.tourType}
+                    transferType={voucher.transferType}
+                    hotelType={voucher.hotelType}
+                    status={voucher.status}
+                    hotStatus={voucher.hot}
+                    onActionSuccess={handleActionSuccess}
+                    role={role}
+                    onRefreshVouchers={refreshVouchers}
+                />
+            );
         });
     };
 
@@ -173,14 +129,14 @@ const Vouchers = () => {
                             className="button button--add"
                             onClick={() => navigate('/voucher-card')}
                         >
-                            Add Voucher
+                            {t('vouchers.add_voucher')}
                         </button>
                     </div>
                 )}
 
                 <div className="voucher__top">
                     <div className="voucher__sort-item">
-                        <label htmlFor="filter-hotel-type">Hotel Type</label>
+                        <label htmlFor="filter-hotel-type">{t('vouchers.hotel_type')}</label>
                         <select
                             id="filter-hotel-type"
                             value={selectedHotelType}
@@ -194,7 +150,7 @@ const Vouchers = () => {
                     </div>
 
                     <div className="voucher__sort-item">
-                        <label htmlFor="filter-tour-type">Tour Type</label>
+                        <label htmlFor="filter-tour-type">{t('vouchers.tour_type')}</label>
                         <select
                             id="filter-tour-type"
                             value={selectedTourType}
@@ -208,7 +164,7 @@ const Vouchers = () => {
                     </div>
 
                     <div className="voucher__sort-item">
-                        <label htmlFor="filter-transfer-type">Transfer Type</label>
+                        <label htmlFor="filter-transfer-type">{t('vouchers.transfer_type')}</label>
                         <select
                             id="filter-transfer-type"
                             value={selectedTransferType}
@@ -223,7 +179,7 @@ const Vouchers = () => {
 
                     <div className="voucher__sort-item">
                         <div className="voucher__sort-item-price">
-                            <label htmlFor="filter-min-price">Min Price</label>
+                            <label htmlFor="filter-min-price">{t('vouchers.min_price')}</label>
                             <input
                                 type="number"
                                 id="filter-min-price"
@@ -232,7 +188,7 @@ const Vouchers = () => {
                             />
                             <div>-</div>
 
-                            <label htmlFor="filter-max-price">Max Price</label>
+                            <label htmlFor="filter-max-price">{t('vouchers.max_price')}</label>
                             <input
                                 type="number"
                                 id="filter-max-price"
@@ -242,11 +198,11 @@ const Vouchers = () => {
                         </div>
                     </div>
 
-                    <button className="button" onClick={handleFilter}>Apply Filters</button>
+                    <button className="button" onClick={handleFilter}>{t('vouchers.apply_filters')}</button>
                 </div>
 
                 <ul className="voucher__list">
-                    {renderByRole()}
+                    {render()}
                 </ul>
 
                 <div className="voucher__pagination">
@@ -255,15 +211,15 @@ const Vouchers = () => {
                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
                     >
-                        Previous
+                        {t('cabinet.previous')}
                     </button>
-                    <span>Page {currentPage} of {totalPages}</span>
+                    <span>{t('cabinet.page')} {currentPage} {t('cabinet.of')} {totalPages}</span>
                     <button
                         className="button"
                         onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >
-                        Next
+                        {t('cabinet.next')}
                     </button>
                 </div>
 

@@ -12,8 +12,6 @@ export default function Cabinet() {
 
     const [vouchers, setVouchers] = useState([]);
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [currentUser, setCurrentUser] = useState(null);
@@ -33,12 +31,12 @@ export default function Cabinet() {
     }, [role, currentPage]);
 
     const handleApiError = (error) => {
-        const message = error.response?.data?.message || error.message || t('cabinet.unknown_error');
+        const message = error.response?.data?.message || error.message;
         alert(message);
     };
 
     const handleApiSuccess = (response) => {
-        const message = response?.data?.statusMessage || t('cabinet.success');
+        const message = response?.data?.statusMessage;
         alert(message);
     };
 
@@ -50,13 +48,10 @@ export default function Cabinet() {
             setCurrentUser(data.results[0]);
         } catch (err) {
             handleApiError(err);
-        } finally {
-            setLoading(false);
         }
     };
 
     const fetchUsers = async () => {
-        setLoading(true);
         try {
             const {data} = await axios.get(`${API_BASE_URL}/users`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
@@ -66,13 +61,10 @@ export default function Cabinet() {
             setTotalPages(data.totalPages || 1);
         } catch (err) {
             handleApiError(err);
-        } finally {
-            setLoading(false);
         }
     };
 
     const fetchVouchers = async () => {
-        setLoading(true);
         try {
             const {data} = await axios.get(`${API_BASE_URL}/vouchers`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
@@ -82,13 +74,11 @@ export default function Cabinet() {
             setTotalPages(data.totalPages || 1);
         } catch (err) {
             handleApiError(err);
-        } finally {
-            setLoading(false);
         }
     };
 
     const handleChangeRole = async (userId, newRole) => {
-        if (!confirmAction('Are you sure you want to change the role?')) return;
+        if (!confirmAction(t('cabinet.confirm_role'))) return;
 
         try {
             const response = await axios.patch(
@@ -107,7 +97,7 @@ export default function Cabinet() {
     };
 
     const handleChangeStatus = async (userId, newStatus) => {
-        if (!confirmAction('Are you sure you want to change the status?')) return;
+        if (!confirmAction(t('cabinet.confirm_status'))) return;
 
         try {
             const response = await axios.patch(
@@ -125,9 +115,6 @@ export default function Cabinet() {
         }
     };
 
-    if (loading) return <p>{t('cabinet.loading')}</p>;
-    if (error) return <p>{t('cabinet.error')}: {error}</p>;
-
     const renderCurrentUserInfo = () => (
         currentUser && (
             <div className="current-user-info">
@@ -136,7 +123,7 @@ export default function Cabinet() {
                 <p>{t('cabinet.phone')}: {currentUser.phoneNumber}</p>
                 <p>{t('cabinet.balance')}: {currentUser.balance}</p>
                 <p>{t('cabinet.role')}: {currentUser.role}</p>
-                <p>{t('cabinet.account_status')}: {currentUser.accountStatus ? 'true' : 'false'}</p>
+                <p>{t('cabinet.account_status')}: {currentUser.accountStatus ? t('cabinet.active') : t('cabinet.disabled')}</p>
             </div>
         )
     );
@@ -187,7 +174,7 @@ export default function Cabinet() {
                                     <option value="MANAGER">MANAGER</option>
                                 </select>
                             </td>
-                            <td>{user.accountStatus ? 'true' : 'false'}</td>
+                            <td>{user.accountStatus ? t('cabinet.active') : t('cabinet.disabled')}</td>
                             <td>
                                 <button className="button"
                                         onClick={() => handleChangeStatus(user.id, !user.accountStatus)}>

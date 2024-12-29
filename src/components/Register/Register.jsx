@@ -27,14 +27,14 @@ export default function Register() {
 
         try {
             const response = await axios.post(`${API_BASE_URL}/users/register`, formData);
-            alert(response.data.statusMessage || t("registration.success"));
+            alert(response.data.statusMessage);
             navigate("/");
-        } catch (err) {
-            const errorMessages = Object.entries(err.response.data)
+        } catch (error) {
+            const errorMessages = Object.entries(error.response.data)
                 .filter(([, value]) => Array.isArray(value))
-                .map(([key, messages]) => `${t(`fields.${key}`)}:\n${messages.join("\n")}`)
+                .map(([key, messages]) => `${t(`register.${key}`)}:\n${messages.join("\n")}`)
                 .join("\n\n");
-            alert(errorMessages || t("registration.failure"));
+            alert(errorMessages);
         }
     };
 
@@ -45,7 +45,7 @@ export default function Register() {
                     <form className="form" onSubmit={handleSubmit}>
                         <div className="form__row">
                             <label className="form__label" htmlFor="form-username">
-                                {t("fields.username")}
+                                {t("register.username")}
                             </label>
                             <input
                                 type="text"
@@ -58,7 +58,7 @@ export default function Register() {
 
                         <div className="form__row">
                             <label className="form__label" htmlFor="form-phoneNumber">
-                                {t("fields.phoneNumber")}
+                                {t("register.phoneNumber")}
                             </label>
                             <input
                                 type="number"
@@ -71,7 +71,7 @@ export default function Register() {
 
                         <div className="form__row">
                             <label className="form__label" htmlFor="form-password">
-                                {t("fields.password")}
+                                {t("register.password")}
                             </label>
                             <input
                                 type="password"
@@ -83,7 +83,7 @@ export default function Register() {
                         </div>
                         <div className="form__row">
                             <button className="button" type="submit">
-                                {t("registration.submit")}
+                                {t("regiser.submit")}
                             </button>
                         </div>
                     </form>

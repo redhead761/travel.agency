@@ -25,19 +25,16 @@ const Auth = ({onAuthChange}) => {
             const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials, {
                 headers: {"Content-Type": "application/json"},
             });
+            const token = response.data.results[0].token;
+            localStorage.setItem("token", token);
 
-            if (response.status === 202) {
-                const token = response.data.results[0].token;
-                localStorage.setItem("token", token);
+            const decoded = jwt_decode(token);
+            localStorage.setItem("role", decoded.role);
+            localStorage.setItem("id", decoded.id);
 
-                const decoded = jwt_decode(token);
-                if (decoded.role) {
-                    localStorage.setItem("role", decoded.role);
-                    localStorage.setItem("id",decoded.id);
-                }
-                onAuthChange(true);
-                navigate("/vouchers");
-            }
+            onAuthChange(true);
+            navigate("/vouchers");
+
         } catch (error) {
             const {message: backendMessage} = error.response.data || {};
             setMessage(backendMessage);
@@ -49,23 +46,23 @@ const Auth = ({onAuthChange}) => {
                 <div className="form-section__body">
                     <form className="form" onSubmit={handleSubmit}>
                         <div className="form__row">
-                            <label className="form__label" htmlFor="form-name">{t("login.username")}</label>
+                            <label className="form__label" htmlFor="form-name">{t("auth.username")}</label>
                             <input type="text" id="form-name" name="username" value={credentials.username}
                                    onChange={handleChange}/>
                         </div>
 
                         <div className="form__row">
-                            <label className="form__label" htmlFor="form-password">{t("login.password")}</label>
+                            <label className="form__label" htmlFor="form-password">{t("auth.password")}</label>
                             <input type="password" id="form-password" name="password" value={credentials.password}
                                    onChange={handleChange}/>
                         </div>
 
                         <div className="form__row">
-                            <button className="button" type="submit">Login</button>
+                            <button className="button" type="submit">{t("auth.login")}</button>
                         </div>
                     </form>
                 </div>
-                {message && <p style={{textAlign:"center", color:"red", marginTop:"10px"}}>{message}</p>}
+                {message && <p style={{textAlign: "center", color: "red", marginTop: "10px"}}>{message}</p>}
             </div>
         </section>
     );
