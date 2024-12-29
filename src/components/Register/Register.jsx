@@ -1,6 +1,8 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import './form.scss';
+import axios from "axios";
+import {useTranslation} from "react-i18next";
+import "./form.scss";
 
 export default function Register() {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -9,8 +11,8 @@ export default function Register() {
         phoneNumber: "",
         password: ""
     });
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     const handleInputChange = (e) => {
         const {id, value} = e.target;
@@ -22,25 +24,17 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/users/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Failed to register");
-            }
-
+            const response = await axios.post(`${API_BASE_URL}/users/register`, formData);
+            alert(response.data.statusMessage || t("registration.success"));
             navigate("/");
         } catch (err) {
-            setError(err.message);
+            const errorMessages = Object.entries(err.response.data)
+                .filter(([, value]) => Array.isArray(value))
+                .map(([key, messages]) => `${t(`fields.${key}`)}:\n${messages.join("\n")}`)
+                .join("\n\n");
+            alert(errorMessages || t("registration.failure"));
         }
     };
 
@@ -50,39 +44,47 @@ export default function Register() {
                 <div className="form-section__body">
                     <form className="form" onSubmit={handleSubmit}>
                         <div className="form__row">
-                            <label className="form__label" htmlFor="form-username">Username</label>
+                            <label className="form__label" htmlFor="form-username">
+                                {t("fields.username")}
+                            </label>
                             <input
                                 type="text"
                                 id="form-username"
                                 value={formData.username}
                                 onChange={handleInputChange}
+                                required
                             />
                         </div>
 
                         <div className="form__row">
-                            <label className="form__label" htmlFor="form-phoneNumber">Phone Number</label>
+                            <label className="form__label" htmlFor="form-phoneNumber">
+                                {t("fields.phoneNumber")}
+                            </label>
                             <input
                                 type="number"
                                 id="form-phoneNumber"
                                 value={formData.phoneNumber}
                                 onChange={handleInputChange}
+                                required
                             />
                         </div>
 
                         <div className="form__row">
-                            <label className="form__label" htmlFor="form-password">Password</label>
+                            <label className="form__label" htmlFor="form-password">
+                                {t("fields.password")}
+                            </label>
                             <input
                                 type="password"
                                 id="form-password"
                                 value={formData.password}
                                 onChange={handleInputChange}
+                                required
                             />
                         </div>
-
-                        {error && <div className="form__error">{error}</div>}
-
                         <div className="form__row">
-                            <button className="button" type="submit">Register</button>
+                            <button className="button" type="submit">
+                                {t("registration.submit")}
+                            </button>
                         </div>
                     </form>
                 </div>

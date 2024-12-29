@@ -13,13 +13,15 @@ export default function Cabinet() {
     const [vouchers, setVouchers] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [currentUser, setCurrentUser] = useState(null);
 
     const role = localStorage.getItem('role');
     const userId = localStorage.getItem('id');
+
+    const confirmAction = (message) => confirm(message);
 
     useEffect(() => {
         fetchCurrentUser();
@@ -30,8 +32,8 @@ export default function Cabinet() {
         }
     }, [role, currentPage]);
 
-    const handleApiError = (err) => {
-        const message = err.response?.data?.message || err.message || t('cabinet.unknown_error');
+    const handleApiError = (error) => {
+        const message = error.response?.data?.message || error.message || t('cabinet.unknown_error');
         alert(message);
     };
 
@@ -86,6 +88,8 @@ export default function Cabinet() {
     };
 
     const handleChangeRole = async (userId, newRole) => {
+        if (!confirmAction('Are you sure you want to change the role?')) return;
+
         try {
             const response = await axios.patch(
                 `${API_BASE_URL}/users/${userId}/role`,
@@ -103,6 +107,8 @@ export default function Cabinet() {
     };
 
     const handleChangeStatus = async (userId, newStatus) => {
+        if (!confirmAction('Are you sure you want to change the status?')) return;
+
         try {
             const response = await axios.patch(
                 `${API_BASE_URL}/users/${userId}/status`,
