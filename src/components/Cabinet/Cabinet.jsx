@@ -110,17 +110,42 @@ export default function Cabinet() {
             );
             handleApiSuccess(response);
             fetchUsers();
-        } catch (err) {
-            handleApiError(err);
+        } catch (error) {
+            handleApiError(error);
         }
     };
 
-    const handleAddMoney = () =>{
-        const userInput = prompt("Введите ваши данные:");
-        if (userInput !== null) { // Проверяем, не нажал ли пользователь "Отмена"
-            alert(`Вы ввели: ${userInput}`);
+    const balanceTopUp = async () => {
+        let userInput;
+        let amount;
+
+        do {
+            userInput = prompt(t('cabinet.amount.input'));
+            if (userInput === null) {
+                return;
+            }
+
+            amount = parseFloat(userInput);
+            if (isNaN(amount) || amount <= 0) {
+                alert(t('cabinet.amount.invalid'));
+            }
+        } while (isNaN(amount) || amount <= 0);
+
+        try {
+            const response = await axios.patch(
+                `${API_BASE_URL}/users/${localStorage.getItem('id')}/top_up`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    params: { amount: amount },
+                }
+            );
+            handleApiSuccess(response);
+            window.location.reload();
+        } catch (error) {
+            handleApiError(error);
         }
-    }
+    };
 
     const renderCurrentUserInfo = () => (
         currentUser && (
@@ -130,17 +155,18 @@ export default function Cabinet() {
                     <p>{t('cabinet.username')}: <span> {currentUser.username}</span></p>
                 </div>
                 <div>
-                    <p>{t('cabinet.phone')}: {currentUser.phoneNumber}</p>
+                    <p>{t('cabinet.phone')}: <span>{currentUser.phoneNumber}</span></p>
                 </div>
                 <div className='balance-wrapper'>
-                    <p>{t('cabinet.balance')}: {currentUser.balance}</p>
-                    {role === 'USER' && <button className='button' onClick={handleAddMoney}>Add money</button>}
+                    <p>{t('cabinet.balance')}: <span>{currentUser.balance}</span></p>
+                    {role === 'USER' && <button className='button' onClick={balanceTopUp}>Add money</button>}
                 </div>
                 <div>
-                    <p>{t('cabinet.role')}: {currentUser.role}</p>
+                    <p>{t('cabinet.role')}: <span>{currentUser.role}</span></p>
                 </div>
                 <div>
-                    <p>{t('cabinet.account_status')}: {currentUser.accountStatus ? t('cabinet.active') : t('cabinet.disabled')}</p>
+                    <p>{t('cabinet.account_status')}: <span>{currentUser.accountStatus ? t('cabinet.active') : t('cabinet.disabled')}</span>
+                    </p>
                 </div>
             </div>
         )

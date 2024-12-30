@@ -22,7 +22,9 @@
     "back_to_vouchers": "Back to vouchers",
     "actions": "Actions",
     "change_status": "Change status",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "amount.input": "Enter the amount to be deposited",
+    "amount.invalid": "Please enter a positive number"
   },
   "footer": {
     "main": "Development by O.P. for EPAM in 2024"
@@ -67,7 +69,8 @@
     "toggle_hot": "Toggle hot",
     "delete": "Delete",
     "update_voucher": "Update voucher",
-    "order": "Order"
+    "order": "Order",
+    "transfer": "Transfer"
   },
   "vouchers": {
     "add_voucher": "Add voucher",
