@@ -51,9 +51,12 @@
     "select_tour_type": "Виберіть тип туру",
     "select_transfer_type": "Виберіть тип трансферу",
     "select_hotel_type": "Виберіть тип готелю",
-    "arrival_date": "Дата прибуття",
-    "eviction_date": "Дата виїзду",
-    "hot": "Гарячий"
+    "arrivalDate": "Дата прибуття",
+    "evictionDate": "Дата виїзду",
+    "hot": "Гарячий",
+    "tourType": "Тип туру",
+    "transferType": "Тип трансферу",
+    "hotelType": "Тип готелю"
   },
   "voucher_item": {
     "status_confirm": "Ви впевнені, що хочете змінити статус?",

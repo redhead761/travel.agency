@@ -19,8 +19,6 @@ export default function Cabinet() {
     const role = localStorage.getItem('role');
     const userId = localStorage.getItem('id');
 
-    const confirmAction = (message) => confirm(message);
-
     useEffect(() => {
         fetchCurrentUser();
         if (role === 'ADMIN') {
@@ -78,8 +76,6 @@ export default function Cabinet() {
     };
 
     const handleChangeRole = async (userId, newRole) => {
-        if (!confirmAction(t('cabinet.confirm_role'))) return;
-
         try {
             const response = await axios.patch(
                 `${API_BASE_URL}/users/${userId}/role`,
@@ -97,8 +93,6 @@ export default function Cabinet() {
     };
 
     const handleChangeStatus = async (userId, newStatus) => {
-        if (!confirmAction(t('cabinet.confirm_status'))) return;
-
         try {
             const response = await axios.patch(
                 `${API_BASE_URL}/users/${userId}/status`,

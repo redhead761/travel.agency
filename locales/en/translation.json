@@ -51,9 +51,12 @@
     "select_tour_type": "Select tour type",
     "select_transfer_type": "Select transfer type",
     "select_hotel_type": "Select hotel type",
-    "arrival_date": "Arrival date",
-    "eviction_date": "Eviction date",
-    "hot": "Hot"
+    "arrivalDate": "Arrival date",
+    "evictionDate": "Eviction date",
+    "hot": "Hot",
+    "tourType": "Tour type",
+    "transferType": "Transfer type",
+    "hotelType": "Hotel type"
   },
   "voucher_item": {
     "status_confirm": "Are you sure you want to change the status?",

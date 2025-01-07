@@ -120,19 +120,19 @@ const VoucherCard = () => {
                     <div>
                         <label htmlFor='input-title'>{t('voucher.title')}:</label>
                         <input type="text" name="title" id='input-title' value={formData.title} onChange={handleChange}
-                               required/>
+                               />
                     </div>
                     <div>
                         <label>{t('voucher.description')}:</label>
-                        <textarea name="description" value={formData.description} onChange={handleChange} required/>
+                        <textarea name="description" value={formData.description} onChange={handleChange} />
                     </div>
                     <div>
                         <label>{t('voucher.price')}:</label>
-                        <input type="number" name="price" value={formData.price} onChange={handleChange} required/>
+                        <input type="number" name="price" value={formData.price} onChange={handleChange} />
                     </div>
                     <div>
-                        <label>Tour Type:</label>
-                        <select name="tourType" value={formData.tourType} onChange={handleChange} required>
+                        <label>{t('voucher.tourType')}:</label>
+                        <select name="tourType" value={formData.tourType} onChange={handleChange} >
                             <option value="">{t('voucher.select_tour_type')}</option>
                             {tourTypes.map((type) => (
                                 <option key={type} value={type}>{type}</option>
@@ -140,8 +140,8 @@ const VoucherCard = () => {
                         </select>
                     </div>
                     <div>
-                        <label>Transfer Type:</label>
-                        <select name="transferType" value={formData.transferType} onChange={handleChange} required>
+                        <label>{t('voucher.transferType')}:</label>
+                        <select name="transferType" value={formData.transferType} onChange={handleChange} >
                             <option value="">{t('voucher.select_transfer_type')}</option>
                             {transferTypes.map((type) => (
                                 <option key={type} value={type}>{type}</option>
@@ -149,8 +149,8 @@ const VoucherCard = () => {
                         </select>
                     </div>
                     <div>
-                        <label>Hotel Type:</label>
-                        <select name="hotelType" value={formData.hotelType} onChange={handleChange} required>
+                        <label>{t('voucher.hotelType')}:</label>
+                        <select name="hotelType" value={formData.hotelType} onChange={handleChange} >
                             <option value="">{t('voucher.select_hotel_type')}</option>
                             {hotelTypes.map((type) => (
                                 <option key={type} value={type}>{type}</option>
@@ -158,20 +158,20 @@ const VoucherCard = () => {
                         </select>
                     </div>
                     <div>
-                        <label>{t('voucher.arrival_date')}:</label>
+                        <label>{t('voucher.arrivalDate')}:</label>
                         <input type="date"
                                name="arrivalDate"
                                value={formData.arrivalDate}
                                onChange={handleChange}
-                               required/>
+                               />
                     </div>
                     <div>
-                        <label>{t('voucher.eviction_date')}:</label>
+                        <label>{t('voucher.evictionDate')}:</label>
                         <input type="date"
                                name="evictionDate"
                                value={formData.evictionDate}
                                onChange={handleChange}
-                               required/>
+                               />
                     </div>
                     <div className='row-checkbox'>
                         <label>{t('voucher.hot')}:</label>
