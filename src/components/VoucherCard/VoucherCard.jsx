@@ -1,8 +1,8 @@
-import {useState, useEffect} from 'react';
-import {useNavigate, useLocation} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import "./voycher-card.scss"
-import {useTranslation} from 'react-i18next';
+import "./voycher-card.scss";
+import { useTranslation } from 'react-i18next';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,7 +19,7 @@ const VoucherCard = () => {
         hot: false,
     });
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [tourTypes, setTourTypes] = useState([]);
     const [transferTypes, setTransferTypes] = useState([]);
     const [hotelTypes, setHotelTypes] = useState([]);
@@ -34,13 +34,13 @@ const VoucherCard = () => {
             try {
                 const [tourResponse, transferResponse, hotelResponse] = await Promise.all([
                     axios.get(`${API_BASE_URL}/enums/tour`, {
-                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                     }),
                     axios.get(`${API_BASE_URL}/enums/transfer`, {
-                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                     }),
                     axios.get(`${API_BASE_URL}/enums/hotel`, {
-                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                     }),
                 ]);
 
@@ -56,7 +56,7 @@ const VoucherCard = () => {
             if (voucherId) {
                 try {
                     const response = await axios.get(`${API_BASE_URL}/vouchers/${voucherId}`, {
-                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                     });
                     setFormData(response.data.results[0]);
                     setIsEditing(true);
@@ -71,21 +71,11 @@ const VoucherCard = () => {
     }, [voucherId]);
 
     const handleChange = (e) => {
-        const {name, value, type, checked} = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
-    };
-
-    const handleApiError = (error) => {
-        const message = error.response?.data?.message || error.message;
-        alert(message);
-    };
-
-    const handleApiSuccess = (response) => {
-        const message = response?.data?.statusMessage;
-        alert(message);
     };
 
     const handleSubmit = async (e) => {
@@ -93,22 +83,18 @@ const VoucherCard = () => {
         try {
             if (isEditing) {
                 const response = await axios.put(`${API_BASE_URL}/vouchers/${voucherId}`, formData, {
-                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
-                handleApiSuccess(response);
+                alert(response.data.statusMessage);
             } else {
                 const response = await axios.post(`${API_BASE_URL}/vouchers`, formData, {
-                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
-                handleApiSuccess(response);
+                alert(response.data.statusMessage);
             }
             navigate('/vouchers');
         } catch (error) {
-            const errorMessages = Object.entries(error.response.data)
-                .filter(([, value]) => Array.isArray(value))
-                .map(([key, messages]) => `${t(`voucher.${key}`)}:\n${messages.join("\n")}`)
-                .join("\n\n");
-            alert(errorMessages);
+            alert(error.response?.data?.message || error.message);
         }
     };
 

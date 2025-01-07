@@ -77,12 +77,8 @@ const Vouchers = () => {
         fetchVouchers(getFilterParams());
     }, [currentPage]);
 
-    const handleActionSuccess = (id, changes) => {
-        setVouchers((prevVouchers) =>
-            prevVouchers.map((voucher) =>
-                voucher.id === id ? {...voucher, ...changes} : voucher
-            )
-        );
+    const handleActionSuccess = async () => {
+        refreshVouchers();
     };
 
     const refreshVouchers = () => {
@@ -96,10 +92,10 @@ const Vouchers = () => {
     };
 
     const render = () => {
-        return vouchers.map((voucher, idx) => {
+        return vouchers.map((voucher) => {
             return (
                 <VoucherItem
-                    key={idx}
+                    key={voucher.id}
                     id={voucher.id}
                     title={voucher.title}
                     description={voucher.description}
