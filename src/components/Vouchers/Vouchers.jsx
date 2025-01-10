@@ -180,7 +180,12 @@ const Vouchers = () => {
                                 type="number"
                                 id="filter-min-price"
                                 value={minPrice}
-                                onChange={(e) => setMinPrice(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value === '' || (Number(value) > 0 && !isNaN(value))) {
+                                        setMinPrice(e.target.value)
+                                    }
+                                }}
                             />
                             <div>-</div>
 
@@ -189,7 +194,12 @@ const Vouchers = () => {
                                 type="number"
                                 id="filter-max-price"
                                 value={maxPrice}
-                                onChange={(e) => setMaxPrice(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value === '' || (Number(value) > 0 && !isNaN(value))) {
+                                        setMaxPrice(value);
+                                    }
+                                }}
                             />
                         </div>
                     </div>

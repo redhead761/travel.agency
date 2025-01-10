@@ -94,7 +94,12 @@ const VoucherCard = () => {
             }
             navigate('/vouchers');
         } catch (error) {
-            alert(error.response?.data?.message || error.message);
+            const errorMessages = Object.entries(error.response.data)
+                .filter(([, value]) => Array.isArray(value))
+                .map(([key, messages]) => `${t(`voucher.${key}`)}:\n${messages.join("\n")}`)
+                .join("\n\n");
+            alert(errorMessages);
+
         }
     };
 

@@ -56,7 +56,8 @@
     "hot": "Гарячий",
     "tourType": "Тип туру",
     "transferType": "Тип трансферу",
-    "hotelType": "Тип готелю"
+    "hotelType": "Тип готелю",
+    "date": "Дата"
   },
   "voucher_item": {
     "status_confirm": "Ви впевнені, що хочете змінити статус?",

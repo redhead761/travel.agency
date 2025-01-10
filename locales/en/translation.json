@@ -56,7 +56,8 @@
     "hot": "Hot",
     "tourType": "Tour type",
     "transferType": "Transfer type",
-    "hotelType": "Hotel type"
+    "hotelType": "Hotel type",
+    "date": "Date"
   },
   "voucher_item": {
     "status_confirm": "Are you sure you want to change the status?",
